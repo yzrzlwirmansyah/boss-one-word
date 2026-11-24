@@ -8,8 +8,14 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const word = "arsonist";
 
 function validate(word: string): void {
-  const ok = word.length >= 1 && word.length <= 30 && !/\s/.test(word);
-  if (!ok) throw new Error(`Word "${word}" must be one word of 1-30 characters.`);
+  const checks: [boolean, string][] = [
+    [word.length === 0, "the entry is empty — supply one word"],
+    [word.length > 30, "the entry runs past thirty characters — trim it down"],
+    [/\s/.test(word), "the entry holds a space or tab — a single word only"],
+  ];
+  for (const [tripped, complaint] of checks) {
+    if (tripped) throw new Error(`Entry rejected: ${complaint}.`);
+  }
 }
 
 validate(word);
