@@ -8,9 +8,8 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const word = "arsonist";
 
 function validate(word: string): void {
-  if (word.length < 1) throw new Error("Word must not be empty.");
-  if (word.length > 30) throw new Error(`Word "${word}" is too long for the entry.`);
-  if (/\s/.test(word)) throw new Error(`Word "${word}" must not contain whitespace.`);
+  const ok = word.length >= 1 && word.length <= 30 && !/\s/.test(word);
+  if (!ok) throw new Error(`Word "${word}" must be one word of 1-30 characters.`);
 }
 
 validate(word);
